@@ -24,7 +24,7 @@ Follow these steps to implement the budget book:
    mongo = PyMongo()
     
    def init_db(app: Flask):
-     app.config["MONGO_URI"] = mongodb://localhost:27017/haushaltsbuch"
+     app.config["MONGO_URI"] = mongodb://localhost:27017/budgetbook"
      mongo.init_app(app)
      return mongo
    ```
