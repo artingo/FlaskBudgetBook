@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/css/global.css">
+</head>
+<body>
+<h1>Users</h1>
+<table border cellpadding="4" cellspacing="0">
+<thead>
+    <th>ID</th>
+    <th>First name</th>
+    <th>Surname</th>
+</thead>
+
+<tbody>
+    {% for u in users %}
+        <tr>
+            <td>{{ u._id }}</td>
+            <td>{{ u.firstname }}</td>
+            <td>{{ u.surname }}</td>
+        </tr>
+    {% endfor %}
+</tbody>
+</table>
+</body>
+</html>

@@ -61,3 +61,27 @@ Follow these steps to implement the budget book:
       cls.mongo.cx.close()
    ``` 
 1. Write tests for the user's CRUD operations.
+
+## 4. Displaying user entries
+1. In the 'root' mapping of [app.py](app.py), load the users and render the corresponding HTML page.
+   ```python
+   @app.route('/')
+   def root():
+      users = dbUsers.read_all()
+      return render_template('users/index.html', users=users)
+   ``` 
+ 
+1. Create a [index.html](templates/users/index.html) file in 'templates/users'.
+ 
+1. Show the user entries in a table.
+   ```html
+   {% for u in users %}
+      <tr>
+         <td>{{ u._id }}</td>
+         <td>{{ u.firstname }}</td>
+         <td>{{ u.surname }}</td>
+      </tr>
+   {% endfor %}
+   ```
+1. The result should look similar to this:<br>
+   ![Users table](screenshots/users.png)
