@@ -43,3 +43,17 @@ Follow these steps to implement the budget book:
    if __name__ == '__main__':
       app.run()
    ``` 
+
+## 3. Testing the database connection
+1. Create a test class in [tests/backend/test_users.py](tests/backend/test_users.py).
+   Connect to the database in [setUpClass()](tests/backend/test_users.py#:~:text=setUpClass)
+   ```python
+   @classmethod
+   def setUpClass(cls):
+      app = Flask(__name__)
+      cls.mongo = init_db(app)
+      cls.db = DbUsers(cls.mongo)
+   ``` 
+1. Close the database connection in [tearDownClass()](tests/backend/test_users.py#:~:text=tearDownClass)
+
+1. Write tests for the user's CRUD operations.
