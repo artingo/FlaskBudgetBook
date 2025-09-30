@@ -55,5 +55,9 @@ Follow these steps to implement the budget book:
       cls.db = DbUsers(cls.mongo)
    ``` 
 1. Close the database connection in [tearDownClass()](tests/backend/test_users.py#:~:text=tearDownClass)
-
+   ```python
+   @classmethod
+   def tearDownClass(cls):
+      cls.mongo.cx.close()
+   ``` 
 1. Write tests for the user's CRUD operations.
