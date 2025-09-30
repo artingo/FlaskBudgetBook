@@ -14,7 +14,7 @@ class Test(TestCase):
         self.mongo.cx.close()
 
     def test_create(self):
-        benutzer_id = self.db.create('Anette', 'Ganz')
+        benutzer_id = self.db.create('Annette', 'Ganz')
         assert benutzer_id is not None
         self._id = benutzer_id
         print(f"Benutzer mit ID {str(benutzer_id)} angelegt")
@@ -28,6 +28,11 @@ class Test(TestCase):
         print("Benutzer: ", benutzer)
 
     def test_update(self):
+        self.test_read()
+        self.db.update(self._id, "Brigitte", "Ganz")
+        print(f"Vorname geändert auf 'Brigitte'")
+
+    def test_delete(self):
         self.test_read()
         self.db.update(self._id, "Brigitte", "Ganz")
         print(f"Vorname geändert auf 'Brigitte'")
