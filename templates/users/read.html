@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ user.firstname + ' ' + user.lastname }}</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/css/global.css">
+</head>
+<body>
+<h1>Users details</h1>
+
+<table border cellpadding="4" cellspacing="0">
+<thead>
+    <tr>
+        <th>ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>{{ user._id }}</td>
+        <td>{{ user.firstname }}</td>
+        <td>{{ user.lastname }}</td>
+    </tr>
+    <tr>
+        <td><button type="button"><a href="/">↩️Overview</a></button></td>
+        <td><button type="button"><a href="/users/update/{{ user._id }}">✏️Change</a></button></td>
+        <td><form action="/users/delete" method="POST"
+                  onsubmit="return confirm('Are you sure?')">
+                <input type="hidden" name="_id" value="{{ user._id }}">
+                <button type="submit">🗑️Delete</button>
+            </form>
+        </td>
+    </tr>
+</tbody>
+</table>
+
+
+
+
+</body>
+</html>

@@ -5,3 +5,22 @@
 th {
     text-align: left;
 }
+
+button {
+    border-width: 1px;
+    border-radius: 0.5rem;
+    padding: 0.3rem;
+    box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+button a {
+    text-decoration: none;
+}
+
+input[type=text], fieldset, table {
+    margin-bottom: 0.5rem;
+}
+
+small {
+    color: red;
+}

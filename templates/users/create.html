@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new user</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/css/global.css">
+</head>
+<body>
+<h1>Create new user</h1>
+
+<form action="/users/create" method="POST">
+    <fieldset>
+        <label for="firstname">First name *</label>
+        <input type="text" name="firstname" id="firstname" required><br/>
+        <label for="lastname">Last name *</label>
+        <input type="text" name="lastname" id="lastname" required><br/>
+        <small>Fields with '*' are required</small>
+    </fieldset>
+    <button type="button">
+        <a href="/">❌ Cancel</a>
+    </button>
+    <button type="submit">✔️Create</button>
+</form>
+</body>
+</html>

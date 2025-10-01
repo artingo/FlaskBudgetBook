@@ -1,3 +1,6 @@
+import re
+from typing import Any
+
 from bson import ObjectId
 
 
@@ -11,9 +14,9 @@ class DbUsers:
 
     Methods
     -------
-    create(firstname, surname)
+    create(firstname, lastname)
     read(id)
-    update(id, firstname, surname)
+    update(id, firstname, lastname)
     delete(id)
     """
 
@@ -21,27 +24,39 @@ class DbUsers:
         self.collection = mongo.db.users
         print("Connected to 'users' collection")
 
-    def create(self, firstname: str, surname: str) -> str:
+    def create(self, firstname: str, lastname: str) -> str | None:
         """
         Creates a new user
         :param firstname: the first name
-        :param surname: the surname
+        :param lastname: the last name
         :return: the newly created user_id
         """
+        # if an user with the same name exists...
+        firstname_lower = re.compile(firstname, re.IGNORECASE)
+        lastname_lower = re.compile(lastname, re.IGNORECASE)
+        existing_user = self.collection.find_one({"firstname": firstname_lower, "lastname": lastname_lower})
+
+        # ... then don't create this user
+        if existing_user:
+            return None
+
         result = self.collection.insert_one({
             "firstname": firstname,
-            "surname": surname
+            "lastname": lastname
         })
         return str(result.inserted_id)
 
-    def read(self, user_id: str):
+    def read(self, user_id: str) -> Any | None:
         """
         Reads a user based on its user_id
         :param user_id: the ID of the user you are looking for
         :return: the user found or 'None' if none was found
         """
-        user = self.collection.find_one({"_id": ObjectId(user_id)})
+        # check if user_id is valid
+        if not ObjectId.is_valid(user_id):
+            return None
 
+        user = self.collection.find_one({"_id": ObjectId(user_id)})
         if user:
             return user
 
@@ -55,20 +70,24 @@ class DbUsers:
         """
         return self.collection.find()
 
-    def update(self, user_id: str, firstname: str, surname: str) -> bool:
+    def update(self, user_id: str, firstname: str, lastname: str) -> bool:
         """
         Updates a user based on its user_id
         :param user_id: the ID of the user to be updated
         :param firstname: the new first name
-        :param surname: the new surname
+        :param lastname: the new lastname
         :return: True if the update was successful - False if not
         """
+        # check if user_id is valid
+        if not ObjectId.is_valid(user_id):
+            return False
+
         result = self.collection.update_one(
             { "_id": ObjectId(user_id)},
             {
                 "$set": {
                     "firstname": firstname,
-                    "surname": surname
+                    "lastname": lastname
                 }
             })
         return result.acknowledged
@@ -79,6 +98,10 @@ class DbUsers:
         :param user_id: die ID des zu löschenden Benutzers
         :return: True, wenn das Löschen geklappt hat - False, falls nicht
         """
+        # check if user_id is valid
+        # if not ObjectId.is_valid(user_id):
+        #     return False
+
         result = self.collection.delete_one({"_id": ObjectId(user_id)})
         return result.deleted_count > 0
 

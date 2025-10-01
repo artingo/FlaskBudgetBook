@@ -85,3 +85,191 @@ Follow these steps to implement the budget book:
    ```
 1. The result should look similar to this:<br>
    ![Users table](screenshots/users.png)
+
+## 5. CRUD operations for users
+### 1. Create
+1. Implement a new route to show the 'new user' form:
+   ```python
+   @app.route('/users/create', methods=['GET', 'POST'])
+   def users_create():
+      if request.method == 'GET':
+         # show user creation form
+         return render_template('users/create.html')
+   ```
+1. Implement the corresponding [create.html](templates/users/create.html) page:
+   ```html
+   ...
+   <form action="/users/create" method="POST">
+      <fieldset>
+         <label for="firstname">First name *</label>
+         <input type="text" name="firstname" id="firstname" required><br/>
+         <label for="lastname">Last name *</label>
+         <input type="text" name="lastname" id="lastname" required><br/>
+         <small>Fields with '*' are required</small>
+      </fieldset>
+      <button type="button">
+         <a href="/">❌ Cancel</a>
+      </button>
+      <button type="submit">✔️Create</button>
+   </form>
+   ```
+   The result should look like this:<br>
+   ![Create new user](screenshots/create_user.png)   
+
+
+1. Add a 'create' button in the [index.html](templates/users/index.html) page:
+   ```html
+   ...
+    <button type="button">
+        ➕<a href="/users/create">Create</a>
+    </button>
+   ```
+1. In [app.py](app.py), add the code to handle the form submit. It takes the submitted values from the form,
+   calls the backend, handles duplicates and finally redirects to the home page. 
+   ```python
+    if request.method == 'POST':
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        user_id = dbUsers.create(firstname, lastname)
+
+        if user_id is None:
+            return f"User with name '{firstname + ' ' + lastname}' already exists", 409
+
+        return redirect(url_for('root'))
+   ```
+
+### 2. Read
+1. Implement a new route to display user details:
+   ```python
+    @app.route('/users/<user_id>')
+    def users_read(user_id):
+        user = dbUsers.read(user_id)
+        if user is None:
+            return f"User with ID '{user_id}' not found", 404
+        return render_template('users/read.html', user=user)
+   ```
+1. Implement the corresponding [read.html](templates/users/read.html) page:
+   ```html
+   ...
+   <table border cellpadding="4" cellspacing="0">
+   <thead>
+       <tr>
+           <th>ID</th>
+           <th>First name</th>
+           <th>Last name</th>
+       </tr>
+   </thead>
+   <tbody>
+       <tr>
+           <td>{{ user._id }}</td>
+           <td>{{ user.firstname }}</td>
+           <td>{{ user.lastname }}</td>
+       </tr>
+   ...
+   ```
+   The result should look like this:<br>
+   ![User details](screenshots/user_details.png)  
+
+ 
+1. Add a hyperlink to the user details in the [index.html](templates/users/index.html) page:
+   ```html
+   ...
+   {% for u in users %}
+   <tr>
+     <td><a href="/users/{{ u._id }}">{{ u._id }}</a></td>
+   ...
+   ```
+
+### 3. Update
+1. Implement a new route for the 'user update' page:
+   ```python
+   @app.route('/users/update/<user_id>')
+   def users_change(user_id):
+      user = dbUsers.read(user_id)
+      if user is None:
+         return f"User with ID '{user_id}' not found", 404
+      return render_template('users/update.html', user=user)
+   ```
+1. Implement the corresponding [update.html](templates/users/update.html) page:
+   ```html
+   ...
+   <form action="/users/update" method="POST">
+      <fieldset>
+         <input type="hidden" name="_id" value="{{ user._id }}"><br/>
+         <label for="firstname">First name *</label>
+         <input type="text" name="firstname" id="firstname"
+               value="{{ user.firstname }}" required><br/>
+
+         <label for="lastname">Last name *</label>
+         <input type="text" name="lastname" id="lastname"
+               value="{{ user.lastname }}" required><br/>
+         <small>Fields with '*' are required</small>
+      </fieldset>
+      <button type="button">
+         <a href="/">❌Cancel</a>
+      </button>
+      <button type="submit">✔️Update</button>
+   </form>   
+   ...
+   ```
+   The result should look like this:<br>
+   ![Update user](screenshots/update_user.png)  
+
+
+1. In [app.py](app.py), add the code to handle the form submit. It takes the submitted values from the form,
+   calls the backend, handles duplicates and finally redirects to the home page. 
+   ```python
+   @app.route('/users/update', methods=['POST'])
+   def users_update():
+      user_id = request.form['_id']
+      firstname = request.form['firstname']
+      lastname = request.form['lastname']
+      success = dbUsers.update(user_id, firstname, lastname)
+    
+      if not success:
+         return f"User with ID '{user_id}' not found", 404
+    
+      return redirect(url_for('root'))
+   ```
+
+### 4. Delete
+1. Implement a new route to delete an user:
+   ```python
+   @app.route('/users/delete', methods=['POST'])
+   def users_delete():
+      user_id = request.form['_id']
+      success = dbUsers.delete(user_id)
+
+      if not success:
+         return f"User with ID '{user_id}' not found", 404
+
+      return redirect(url_for('root'))
+   ```
+1. In the [index.html](templates/users/index.html) page, implement the corresponding form.
+   Don't forget to add a confirm dialog to prevent unintentional deletion.
+   ```html
+   ...
+   <td><form action="/users/delete" method="POST"
+             onsubmit="return confirm('Are you sure?')">
+       <input type="hidden" name="_id" value="{{ u._id }}">
+          <button type="submit">🗑️Delete</button>
+       </form>
+   </td>
+   ...
+   ```
+   The result should look like this:<br>
+   ![Delete user](screenshots/delete_user.png)  
+
+1. In [app.py](app.py), add the code to handle the form submit. It takes the submitted values from the form,
+   calls the backend, handles duplicates and finally redirects to the home page. 
+   ```python
+   @app.route('/users/delete', methods=['POST'])
+   def users_delete():
+      user_id = request.form['_id']
+      success = dbUsers.delete(user_id)
+    
+      if not success:
+         return f"User with ID '{user_id}' not found", 404
+    
+      return redirect(url_for('root'))
+   ```
