@@ -15,9 +15,9 @@ class DbUsers:
     Methods
     -------
     create(firstname, lastname)
-    read(id)
-    update(id, firstname, lastname)
-    delete(id)
+    read(_id)
+    update(_id, firstname, lastname)
+    delete(_id)
     """
 
     def __init__(self, mongo):
@@ -60,7 +60,7 @@ class DbUsers:
         if user:
             return user
 
-        print(f"User with id {user_id} not found!")
+        print(f"User with _id {user_id} not found!")
         return None
 
     def read_all(self) -> list:

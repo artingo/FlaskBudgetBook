@@ -80,5 +80,7 @@ def users_delete():
     # redirect to home page
     return redirect(url_for('root'))
 
+# ToDo: separate files for entity routes
+
 if __name__ == '__main__':
     app.run()

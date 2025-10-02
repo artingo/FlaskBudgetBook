@@ -3,7 +3,7 @@ from flask import Flask
 from backend.db import init_db
 from backend.users import DbUsers
 
-class Test(TestCase):
+class TestUsers(TestCase):
     """
     This test class tests the CRUD operations for the "users" collection
     """
@@ -57,10 +57,13 @@ class Test(TestCase):
     def test_update(self):
         if self.id_list:
             user_id = self.id_list[0]
-            self.db.update(user_id, "Brigitte", "Ganz")
+            success = self.db.update(user_id, "Brigitte", "Ganz")
+            assert success is True
             print(f"First name changed to 'Brigitte'")
 
     def test_delete(self):
         if self.id_list:
             user_id = self.id_list[0]
+            success = self.db.delete(user_id)
+            assert success is True
             print(f"User with ID {user_id} deleted")
