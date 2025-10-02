@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Category '{{ category.description }}'</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/css/global.css">
+</head>
+<body>
+<h1>Category '{{ category.description }}'</h1>
+
+<table border cellpadding="4" cellspacing="0">
+<thead>
+    <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th></th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>{{ category._id }}</td>
+        <td>{{ category.description }}</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><button type="button"><a href="/categories">↩️Overview</a></button></td>
+        <td><button type="button"><a href="/categories/update/{{ category._id }}">✏️Change</a></button></td>
+        <td><form action="/categories/delete" method="POST"
+                  onsubmit="return confirm('Are you sure?')">
+                <input type="hidden" name="_id" value="{{ category._id }}">
+                <button type="submit">🗑️Delete</button>
+            </form>
+        </td>
+    </tr>
+</tbody>
+</table>
+
+</body>
+</html>

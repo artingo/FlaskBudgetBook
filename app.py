@@ -1,16 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for
-from jinja2.runtime import str_join
-
 from backend.db import init_db
-from backend.users import DbUsers
+from backend.db_users import DbUsers
+from backend.db_categories import DbCategories
 
 """
 This script handles DB connection and URL routes 
 """
 app = Flask(__name__)
 mongo = init_db(app)
-
 dbUsers = DbUsers(mongo)
+dbCategories = DbCategories(mongo)
 
 
 @app.route('/')
@@ -20,6 +19,7 @@ def root():
 
     # show them in the HTML page
     return render_template('users/index.html', users=users)
+
 
 @app.route('/users/create', methods=['GET', 'POST'])
 def users_create():
@@ -42,6 +42,7 @@ def users_create():
     # all other methods are not allowed
     return "Method not allowed", 405
 
+
 @app.route('/users/<user_id>')
 def users_read(user_id):
     user = dbUsers.read(user_id)
@@ -49,12 +50,14 @@ def users_read(user_id):
         return f"User with ID '{user_id}' not found", 404
     return render_template('users/read.html', user=user)
 
+
 @app.route('/users/update/<user_id>')
 def users_change(user_id):
     user = dbUsers.read(user_id)
     if user is None:
         return f"User with ID '{user_id}' not found", 404
     return render_template('users/update.html', user=user)
+
 
 @app.route('/users/update', methods=['POST'])
 def users_update():
@@ -69,6 +72,7 @@ def users_update():
     # redirect to home page
     return redirect(url_for('root'))
 
+
 @app.route('/users/delete', methods=['POST'])
 def users_delete():
     user_id = request.form['_id']
@@ -79,6 +83,71 @@ def users_delete():
 
     # redirect to home page
     return redirect(url_for('root'))
+
+
+# ToDo: create category routes
+@app.route('/categories')
+def show_categories():
+    categories = dbCategories.read_all()
+    return render_template('categories/index.html', categories=categories)
+# =============================================================================
+
+@app.route('/categories/create', methods=['GET', 'POST'])
+def categories_create():
+    if request.method == 'GET':
+        # show user creation form
+        return render_template('categories/create.html')
+
+    if request.method == 'POST':
+        description = request.form['description']
+        new_category = dbCategories.create(description)
+
+        # if category already exists, return error code 409
+        if new_category is None:
+            return f"Category '{description}' already exists", 409
+
+        # redirect to home page
+        return redirect(url_for('show_categories'))
+
+    # all other methods are not allowed
+    return "Method not allowed", 405
+
+@app.route('/categories/<cat_id>')
+def categories_read(cat_id):
+    category = dbCategories.read(cat_id)
+    if category is None:
+        return f"Category with ID '{cat_id}' not found", 404
+    return render_template('categories/read.html', category=category)
+
+@app.route('/categories/update/<cat_id>')
+def categories_change(cat_id):
+    category = dbCategories.read(cat_id)
+    if category is None:
+        return f"Category with ID '{cat_id}' not found", 404
+    return render_template('categories/update.html', category=category)
+
+@app.route('/categories/update', methods=['POST'])
+def categories_update():
+    _id = request.form['_id']
+    description = request.form['description']
+    success = dbCategories.update(_id, description)
+
+    if not success:
+        return f"Category with ID '{_id}' not found", 404
+
+    # redirect to home page
+    return redirect(url_for('show_categories'))
+
+@app.route('/categories/delete', methods=['POST'])
+def categories_delete():
+    cat_id = request.form['_id']
+    success = dbCategories.delete(cat_id)
+
+    if not success:
+        return f"User with ID '{id}' not found", 404
+
+    # redirect to home page
+    return redirect(url_for('show_categories'))
 
 # ToDo: separate files for entity routes
 

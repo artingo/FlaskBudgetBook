@@ -1,3 +1,5 @@
+import re
+
 from bson import ObjectId
 from model.category import Category
 
@@ -16,7 +18,8 @@ class DbCategories:
         :return: Category if successful, 'None' if failed
         """
         # check for existing category
-        existing_category = self.collection.find_one({"description": description})
+        description_lower = re.compile(description, re.IGNORECASE)
+        existing_category = self.collection.find_one({"description": description_lower})
         if existing_category:
             return None
 
@@ -30,7 +33,11 @@ class DbCategories:
         :param _id: the ObjectId of the category to retrieve
         :return: Category if successful, 'None' if failed
         """
-        category = self.collection.find_one({"_id": _id})
+        # check if _id is valid
+        if not ObjectId.is_valid(_id):
+            return None
+
+        category = self.collection.find_one({"_id": ObjectId(_id)})
         if category:
             return category
 
@@ -38,25 +45,42 @@ class DbCategories:
         print(f"Category with ID '{_id}' not found")
         return None
 
-    def update(self, _id: ObjectId, description: str) -> bool:
+    def read_all(self) -> list:
+        """
+        Reads all categories from the collection
+        :return: categoryList
+        """
+        return self.collection.find()
+
+    def update(self, _id: str, description: str) -> bool:
         """
         Updates a category by id.
         :param _id: the ObjectId of the category to be updated
         :param description: the new description
         :return: 'True' if successful, 'False' if failed
         """
+        # check if _id is valid
+        if not ObjectId.is_valid(_id):
+            print(f"ID '{_id}' is not valid")
+            return False
+
         result = self.collection.update_one(
-            {"_id": _id},
+            {"_id": ObjectId(_id)},
             {
                 "$set": {"description": description}
             })
         return result.acknowledged
 
-    def delete(self, _id: ObjectId) -> bool:
+    def delete(self, _id: str) -> bool:
         """
         Deletes a category by id.
         :param _id: the ObjectId of the category to be deleted
         :return: 'True' if successful, 'False' if failed
         """
-        result = self.collection.delete_one({"_id": _id})
+        # check if _id is valid
+        if not ObjectId.is_valid(_id):
+            print(f"ID '{_id}' is not valid")
+            return False
+
+        result = self.collection.delete_one({"_id": ObjectId(_id)})
         return result.deleted_count > 0

@@ -2,7 +2,7 @@ from unittest import TestCase
 from bson import ObjectId
 from flask import Flask
 from backend.db import init_db
-from backend.categories import DbCategories
+from backend.db_categories import DbCategories
 
 class TestCategories(TestCase):
     """

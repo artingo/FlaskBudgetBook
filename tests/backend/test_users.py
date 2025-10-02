@@ -1,7 +1,7 @@
 from unittest import TestCase
 from flask import Flask
 from backend.db import init_db
-from backend.users import DbUsers
+from backend.db_users import DbUsers
 
 class TestUsers(TestCase):
     """

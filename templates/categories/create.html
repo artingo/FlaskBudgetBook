@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new category</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/css/global.css">
+</head>
+<body>
+<h1>Create new category</h1>
+
+<form action="/categories/create" method="POST">
+    <fieldset>
+        <label for="description">Description *</label>
+        <input type="text" name="description" id="description" required><br/>
+        <small>Fields with '*' are required</small>
+    </fieldset>
+    <button type="button">
+        <a href="/">❌ Cancel</a>
+    </button>
+    <button type="submit">✔️Create</button>
+</form>
+</body>
+</html>

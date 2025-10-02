@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/css/global.css">
+</head>
+<body>
+<h1>Categories</h1>
+<table border cellpadding="4" cellspacing="0">
+<thead>
+    <th>ID</th>
+    <th>Description</th>
+    <th></th>
+</thead>
+
+<tbody>
+    {% for c in categories %}
+        <tr>
+            <td><a href="/categories/{{ c._id }}">{{ c._id }}</a></td>
+            <td>{{ c.description }}</td>
+            <td>
+                <button type="button">
+                    <a href="/categories/update/{{ c._id }}">✏️Change</a>
+                </button>
+            </td>
+            <td><form action="/categories/delete" method="POST"
+                      onsubmit="return confirm('Are you sure?')">
+                    <input type="hidden" name="_id" value="{{ c._id }}">
+                    <button type="submit">🗑️Delete</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+</tbody>
+</table>
+
+<button type="button">
+    ➕<a href="/categories/create">Create</a>
+</button>
+</body>
+</html>
