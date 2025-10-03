@@ -116,7 +116,6 @@ Follow these steps to implement the budget book:
    The result should look like this:<br>
    ![Create new user](screenshots/create_user.png)   
 
-
 1. Add a 'create' button in the [index.html](templates/users/index.html) page:
    ```html
    ...
@@ -170,7 +169,6 @@ Follow these steps to implement the budget book:
    The result should look like this:<br>
    ![User details](screenshots/user_details.png)  
 
- 
 1. Add a hyperlink to the user details in the [index.html](templates/users/index.html) page:
    ```html
    ...
@@ -214,7 +212,6 @@ Follow these steps to implement the budget book:
    ```
    The result should look like this:<br>
    ![Update user](screenshots/update_user.png)  
-
 
 1. In [app.py](app.py), add the code to handle the form submit. It takes the submitted values from the form,
    calls the backend, handles duplicates and finally redirects to the home page. 
@@ -273,3 +270,29 @@ Follow these steps to implement the budget book:
     
       return redirect(url_for('root'))
    ```
+
+## 6. CRUD operations for transaction categories
+Repeat the steps that you implemented for 'users'.
+### 1. Create
+1. Implement a new route to show the 'new category' form.
+1. Implement the corresponding [create.html](templates/categories/create.html) page.
+1. Add a 'create' button in the [index.html](templates/categories/index.html) page:
+1. In [app.py](app.py), add the code to handle the form submit.
+
+### 2. Read
+1. Implement a new route to display category details.
+1. Implement the corresponding [read.html](templates/categories/read.html) page.
+1. Add a hyperlink to the category details in the [index.html](templates/categories/index.html) page.
+
+### 3. Update
+1. Implement a new route for the 'category update' page.
+1. Implement the corresponding [update.html](templates/categories/update.html) page.
+1. In [app.py](app.py), add the code to handle the form submit.
+
+### 4. Delete
+1. Implement a new route to delete a category.
+1. In the [index.html](templates/categories/index.html) page, implement the corresponding form and delete button.
+1. In [app.py](app.py), add the code to handle the form submit.  
+
+The categories page should look like this:<br>
+![Categories](screenshots/categories.png)
