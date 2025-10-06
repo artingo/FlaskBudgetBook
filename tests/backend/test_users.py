@@ -70,7 +70,7 @@ class TestUsers(TestCase):
         success = self.db.delete(user_id)
         assert success is True
 
-    def create_dummy_user(self):
+    def create_dummy_user(self) -> str:
         """
         This method creates a dummy new_user
         :return: the id of the freshly created

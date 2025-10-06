@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transactions</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/css/global.css">
+</head>
+<body>
+<h1>Transactions</h1>
+<table border cellpadding="4" cellspacing="0">
+<thead>
+    <th>ID</th>
+    <th>User</th>
+    <th>Kind</th>
+    <th>Description</th>
+    <th>Category</th>
+    <th>Amount</th>
+    <th>Date</th>
+    <th></th>
+</thead>
+
+<tbody>
+{#
+    {% for u in users %}
+        <tr>
+            <td><a href="/users/{{ u._id }}">{{ u._id }}</a></td>
+            <td>{{ u.firstname }}</td>
+            <td>{{ u.lastname }}</td>
+            <td>
+                <button type="button">
+                    <a href="/users/update/{{ u._id }}">✏️Change</a>
+                </button>
+            </td>
+            <td><form action="/users/delete" method="POST"
+                      onsubmit="return confirm('Are you sure?')">
+                    <input type="hidden" name="_id" value="{{ u._id }}">
+                    <button type="submit">🗑️Delete</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+#}
+</tbody>
+</table>
+
+<button type="button">
+    🏡<a href="/">Home</a>
+</button>
+<button type="button">
+    ➕<a href="/transactions/create">Create</a>
+</button>
+</body>
+</html>
