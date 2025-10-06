@@ -1,7 +1,11 @@
+import random
+import string
 from unittest import TestCase
 from flask import Flask
 from backend.db import init_db
 from backend.db_users import DbUsers
+from model.user import User
+
 
 class TestUsers(TestCase):
     """
@@ -29,41 +33,50 @@ class TestUsers(TestCase):
         cls.mongo.cx.close()
 
     def test_create(self):
-        user_id = self.db.create('Annette', 'Ganz')
+        user_id = self.create_dummy_user()
         assert user_id is not None
-        print(f"User with ID {str(user_id)} created")
-
-        # remember the user_id for cleanup at tear down.
-        self.id_list.append(str(user_id))
 
     def test_create_duplicate(self):
+        # 1. create a user
+        user_id = self.db.create('Annette', 'Ganz')
+        self.id_list.append(user_id)
+        # 2. create a user with same, lower case name
         user_id = self.db.create('annette', 'ganz')
         assert user_id is None
-        print(f"User already exists!")
 
     def test_read(self):
-        if self.id_list:
-            user_id = self.id_list[0]
-            user = self.db.read(user_id)
-            assert user is not None
-            print("User read: ", user)
+        # 1. create a dummy user
+        users_id = self.create_dummy_user()
+        # 2. read dummy user
+        user = self.db.read(users_id)
+        assert user is not None
 
     def test_read_negative(self):
         user_id = '123456789012'
-        user = self.db.read(user_id)
-        assert user is None
-        print(f"User with id {user_id} does not exist")
+        with self.assertRaises(TypeError):
+            self.db.read(user_id)
 
     def test_update(self):
-        if self.id_list:
-            user_id = self.id_list[0]
-            success = self.db.update(user_id, "Brigitte", "Ganz")
-            assert success is True
-            print(f"First name changed to 'Brigitte'")
+        # 1. create a dummy user
+        _id = self.create_dummy_user()
+        update_user = User("Tommy", "Cash")
+        # 2. update existing user
+        success = self.db.update(_id, update_user)
+        assert success is True
 
     def test_delete(self):
-        if self.id_list:
-            user_id = self.id_list[0]
-            success = self.db.delete(user_id)
-            assert success is True
-            print(f"User with ID {user_id} deleted")
+        # 1. create a dummy user
+        user_id = self.create_dummy_user()
+        success = self.db.delete(user_id)
+        assert success is True
+
+    def create_dummy_user(self):
+        """
+        This method creates a dummy user
+        :return: the id of the freshly created
+        """
+        firstname = ''.join(random.choices(string.ascii_letters, k=8))
+        _id = self.db.create(firstname, 'Test-User')
+        # remember the user_id for cleanup at tear down.
+        self.id_list.append(_id)
+        return _id
