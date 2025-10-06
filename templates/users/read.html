@@ -24,7 +24,7 @@
         <td>{{ user.lastname }}</td>
     </tr>
     <tr>
-        <td><button type="button"><a href="/">↩️Overview</a></button></td>
+        <td><button type="button"><a href="/users">↩️Overview</a></button></td>
         <td><button type="button"><a href="/users/update/{{ user._id }}">✏️Change</a></button></td>
         <td><form action="/users/delete" method="POST"
                   onsubmit="return confirm('Are you sure?')">

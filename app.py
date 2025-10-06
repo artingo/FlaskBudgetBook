@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from backend.db import init_db
 from backend.db_users import DbUsers
 from backend.db_categories import DbCategories
+from model.user import User
 
 """
 This script handles DB connection and URL routes 
@@ -28,17 +29,16 @@ def show_users():
 @app.route('/users/create', methods=['GET', 'POST'])
 def users_create():
     if request.method == 'GET':
-        # show user creation form
+        # show new_user creation form
         return render_template('users/create.html')
 
     if request.method == 'POST':
-        firstname = request.form['firstname']
-        lastname = request.form['lastname']
-        user_id = dbUsers.create(firstname, lastname)
+        new_user = User(request.form['firstname'], request.form['lastname'])
+        user_id = dbUsers.create(new_user)
 
-        # if user with this name already exists, return error code 409
+        # if new_user with this name already exists, return error code 409
         if user_id is None:
-            return f"User with name '{firstname + ' ' + lastname}' already exists", 409
+            return f"User with name '{new_user.firstname + ' ' + new_user.lastname}' already exists", 409
 
         # redirect to home page
         return redirect(url_for('show_users'))
@@ -63,9 +63,8 @@ def users_change(user_id):
 @app.route('/users/update', methods=['POST'])
 def users_update():
     user_id = request.form['_id']
-    firstname = request.form['firstname']
-    lastname = request.form['lastname']
-    success = dbUsers.update(user_id, firstname, lastname)
+    updated_user = User(request.form['firstname'], request.form['lastname'])
+    success = dbUsers.update(user_id, updated_user)
 
     if not success:
         return f"User with ID '{user_id}' not found", 404
@@ -95,7 +94,7 @@ def show_categories():
 @app.route('/categories/create', methods=['GET', 'POST'])
 def categories_create():
     if request.method == 'GET':
-        # show user creation form
+        # show new_user creation form
         return render_template('categories/create.html')
 
     if request.method == 'POST':
