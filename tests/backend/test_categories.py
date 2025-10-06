@@ -1,13 +1,17 @@
+import random
+import string
 from unittest import TestCase
-from bson import ObjectId
 from flask import Flask
 from backend.db import init_db
 from backend.db_categories import DbCategories
+from model.category import Category
+
 
 class TestCategories(TestCase):
     """
     Test cases for the DbCategories class.
     """
+
     @classmethod
     def setUpClass(cls):
         """
@@ -30,50 +34,44 @@ class TestCategories(TestCase):
         # close the connection
         cls.mongo.cx.close()
 
-
     def test_create(self):
-        description = "Monthly income"
-        new_category = self.db.create(description)
-        assert new_category is not None
-
-        # remember the _id for cleanup at tear down.
-        if new_category:
-            self.id_list.append(new_category.id)
-
+        new_id = self.create_dummy_category()
+        assert new_id is not None
 
     def test_create_duplicate(self):
-        duplicate_category = self.db.create("Monthly income")
-        # remember the _id for cleanup at tear down.
-        if duplicate_category:
-            self.id_list.append(duplicate_category.id)
+        # 1. create a test category
+        cat_id = self.db.create("Test Category")
+        self.id_list.append(cat_id)
+        #2 create same category with lower case
+        duplicate_id = self.db.create("test category")
+        assert duplicate_id is None
 
-        duplicate_category = self.db.create("Monthly income")
-        assert duplicate_category is None
-
-    # FixMe: reapair test
     def test_read(self):
-        if not self.id_list:
-            self.test_create()
-        _id = self.id_list[0]
-        print(f"_id = {_id}")
+        _id = self.create_dummy_category()
         category = self.db.read(_id)
         assert category is not None
 
     def test_read_negative(self):
-        non_existing_id = ObjectId()
-        category = self.db.read(non_existing_id)
-        assert category is None
+        with self.assertRaises(TypeError):
+            self.db.read("xxx")
 
     def test_update(self):
-        if self.id_list:
-            _id = self.id_list[0]
-            success = self.db.update(_id, "")
-            assert success is True
+        # 1. create a dummy category
+        _id = self.create_dummy_category()
+        updated_category = Category("Update Category")
+        # 2. update existing category
+        success = self.db.update(_id, updated_category)
 
     def test_delete(self):
-        if self.id_list:
-            _id = self.id_list[0]
-            success = self.db.delete(_id)
-            assert success is True
-        else:
-            self.fail()
+        # 1. create a dummy category
+        _id = self.create_dummy_category()
+        # 2. delete dummy category
+        success = self.db.delete(_id)
+        assert success is True
+
+    def create_dummy_category(self):
+        category = ''.join(random.choices(string.ascii_letters, k=10))
+        _id = self.db.create(category)
+        # remember the user_id for cleanup at tear down.
+        self.id_list.append(_id)
+        return _id

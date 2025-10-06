@@ -2,6 +2,5 @@ from bson import ObjectId
 
 
 class Category:
-    def __init__(self, description: str, _id: ObjectId=None):
+    def __init__(self, description: str):
         self.description = description
-        self.id = _id

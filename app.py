@@ -14,12 +14,16 @@ dbCategories = DbCategories(mongo)
 
 @app.route('/')
 def root():
+    return render_template("index.html")
+
+
+@app.route('/users')
+def show_users():
     # get all users from the database
     users = dbUsers.read_all()
 
     # show them in the HTML page
     return render_template('users/index.html', users=users)
-
 
 @app.route('/users/create', methods=['GET', 'POST'])
 def users_create():
@@ -37,11 +41,10 @@ def users_create():
             return f"User with name '{firstname + ' ' + lastname}' already exists", 409
 
         # redirect to home page
-        return redirect(url_for('root'))
+        return redirect(url_for('show_users'))
 
     # all other methods are not allowed
     return "Method not allowed", 405
-
 
 @app.route('/users/<user_id>')
 def users_read(user_id):
@@ -50,14 +53,12 @@ def users_read(user_id):
         return f"User with ID '{user_id}' not found", 404
     return render_template('users/read.html', user=user)
 
-
 @app.route('/users/update/<user_id>')
 def users_change(user_id):
     user = dbUsers.read(user_id)
     if user is None:
         return f"User with ID '{user_id}' not found", 404
     return render_template('users/update.html', user=user)
-
 
 @app.route('/users/update', methods=['POST'])
 def users_update():
@@ -70,8 +71,7 @@ def users_update():
         return f"User with ID '{user_id}' not found", 404
 
     # redirect to home page
-    return redirect(url_for('root'))
-
+    return redirect(url_for('show_users'))
 
 @app.route('/users/delete', methods=['POST'])
 def users_delete():
@@ -82,7 +82,7 @@ def users_delete():
         return f"User with ID '{user_id}' not found", 404
 
     # redirect to home page
-    return redirect(url_for('root'))
+    return redirect(url_for('show_users'))
 
 
 # ToDo: create category routes
