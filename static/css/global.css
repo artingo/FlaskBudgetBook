@@ -17,8 +17,13 @@ button a {
     text-decoration: none;
 }
 
-input[type=text], fieldset, table {
+input, select, fieldset, table {
     margin-bottom: 0.5rem;
+}
+
+label {
+    display: inline-block;
+    min-width: 7rem;
 }
 
 small {

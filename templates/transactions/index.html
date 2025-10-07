@@ -16,31 +16,35 @@
     <th>Description</th>
     <th>Category</th>
     <th>Amount</th>
-    <th>Date</th>
+    <th>Modified</th>
+    <th></th>
     <th></th>
 </thead>
 
 <tbody>
-{#
-    {% for u in users %}
-        <tr>
-            <td><a href="/users/{{ u._id }}">{{ u._id }}</a></td>
-            <td>{{ u.firstname }}</td>
-            <td>{{ u.lastname }}</td>
-            <td>
-                <button type="button">
-                    <a href="/users/update/{{ u._id }}">✏️Change</a>
-                </button>
-            </td>
-            <td><form action="/users/delete" method="POST"
-                      onsubmit="return confirm('Are you sure?')">
-                    <input type="hidden" name="_id" value="{{ u._id }}">
-                    <button type="submit">🗑️Delete</button>
-                </form>
-            </td>
-        </tr>
-    {% endfor %}
-#}
+{% for t in transactions %}
+    <tr>
+        <td><a href="/transactions/{{ t._id }}">{{ t._id }}</a></td>
+        <td>{{ t.user_name }}</td>
+        <td>{{ t.kind }}</td>
+        <td>{{ t.description }}</td>
+        <td>{{ t.category_id }}</td>
+        <td>{{ t.amount }}</td>
+        <td>{{ t.date }}</td>
+        <td>
+            <button type="button">
+                <a href="/transactions/update/{{ t._id }}">✏️Change</a>
+            </button>
+        </td>
+        <td><form action="/transactions/delete" method="POST"
+                  onsubmit="return confirm('Are you sure?')">
+                <input type="hidden" name="_id" value="{{ t._id }}">
+                <button type="submit">🗑️Delete</button>
+            </form>
+        </td>
+    </tr>
+{% endfor %}
+
 </tbody>
 </table>
 

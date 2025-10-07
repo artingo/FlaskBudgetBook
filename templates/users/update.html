@@ -11,7 +11,8 @@
 
 <form action="/users/update" method="POST">
     <fieldset>
-        <input type="hidden" name="_id" value="{{ user._id }}"><br/>
+        <input type="hidden" name="_id" value="{{ user._id }}">
+
         <label for="firstname">First name *</label>
         <input type="text" name="firstname" id="firstname"
                value="{{ user.firstname }}" required><br/>

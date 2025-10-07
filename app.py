@@ -1,17 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for
-from backend.db import init_db
-from backend.db_users import DbUsers
+from flask import render_template, request, redirect, url_for
+from backend.db import mongo
 from backend.db_categories import DbCategories
+from backend.db_users import DbUsers
 from model.user import User
+from . import create_app
 
 """
 This script handles DB connection and URL routes 
 """
-app = Flask(__name__)
-mongo = init_db(app)
+app = create_app()
 dbUsers = DbUsers(mongo)
 dbCategories = DbCategories(mongo)
-
 
 @app.route('/')
 def root():
@@ -82,14 +81,13 @@ def users_delete():
 
     # redirect to home page
     return redirect(url_for('show_users'))
+# =============================================================================
 
 
-# ToDo: create category routes
 @app.route('/categories')
 def show_categories():
     categories = dbCategories.read_all()
     return render_template('categories/index.html', categories=categories)
-# =============================================================================
 
 @app.route('/categories/create', methods=['GET', 'POST'])
 def categories_create():
@@ -148,7 +146,6 @@ def categories_delete():
     # redirect to home page
     return redirect(url_for('show_categories'))
 
-# ToDo: separate files for entity routes
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
