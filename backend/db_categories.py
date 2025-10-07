@@ -1,17 +1,16 @@
 import re
-
+from typing import List, Dict, Any
 from backend.crud_repository import CrudRepository
 from model.category import Category
-
 
 class DbCategories(CrudRepository):
     """
     The class that handles transaction categories in the database.
     """
 
-    def __init__(self, mongo):
+    def __init__(self, db):
         # pass the collection to the base class
-        super().__init__(mongo.db.categories)
+        super().__init__(db.categories)
         print("Connected to 'categories' collection")
 
     def create(self, description: str) -> str | None:
@@ -31,15 +30,19 @@ class DbCategories(CrudRepository):
         new_category = Category(description)
         return super().create(new_category)
 
-    def read(self, _id: str) -> Category | None:
-        """
-        Reads a category from the database.
-        :param _id: the ObjectId of the document.
-        :return: the category if successful, 'None' otherwise.
-        """
-        result = super().read(_id)
-        if result:
-            return Category(result["description"])
+    # def read(self, _id: str) -> Category | None:
+    #     """
+    #     Reads a category from the database.
+    #     :param _id: the ObjectId of the document.
+    #     :return: the category if successful, 'None' otherwise.
+    #     """
+    #     result = super().read(_id)
+    #     if result:
+    #         return Category(result["description"])
+    #
+    #     print(f"Could not find category with id: {_id}")
+    #     return None
 
-        print(f"Could not find category with id: {_id}")
-        return None
+    def read_all(self) -> List[Dict[str, Any]]:
+        return super().read_all('description')
+

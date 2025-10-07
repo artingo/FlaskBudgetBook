@@ -1,7 +1,5 @@
 from flask import render_template, request, redirect, url_for
-from backend.db import mongo
-from backend.db_categories import DbCategories
-from backend.db_users import DbUsers
+from backend.db import dbUsers, dbCategories
 from model.user import User
 from . import create_app
 
@@ -9,8 +7,6 @@ from . import create_app
 This script handles DB connection and URL routes 
 """
 app = create_app()
-dbUsers = DbUsers(mongo)
-dbCategories = DbCategories(mongo)
 
 @app.route('/')
 def root():
@@ -126,8 +122,9 @@ def categories_change(cat_id):
 @app.route('/categories/update', methods=['POST'])
 def categories_update():
     _id = request.form['_id']
-    description = request.form['description']
-    success = dbCategories.update(_id, description)
+    from model.category import Category
+    updated_category = Category(request.form['description'])
+    success = dbCategories.update(_id, updated_category)
 
     if not success:
         return f"Category with ID '{_id}' not found", 404

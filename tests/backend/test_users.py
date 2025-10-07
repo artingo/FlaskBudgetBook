@@ -2,8 +2,7 @@ import random
 import string
 from unittest import TestCase
 from flask import Flask
-from backend.db import init_db
-from backend.db_users import DbUsers
+from backend.db import init_db, dbUsers
 from model.user import User
 
 
@@ -18,7 +17,7 @@ class TestUsers(TestCase):
         """
         app = Flask(__name__)
         cls.mongo = init_db(app)
-        cls.db = DbUsers(cls.mongo)
+        cls.db = dbUsers
         cls.id_list = []
 
     @classmethod

@@ -2,8 +2,7 @@ import random
 import string
 from unittest import TestCase
 from flask import Flask
-from backend.db import init_db
-from backend.db_categories import DbCategories
+from backend.db import init_db, dbCategories
 from model.category import Category
 
 
@@ -19,7 +18,7 @@ class TestCategories(TestCase):
         """
         app = Flask(__name__)
         cls.mongo = init_db(app)
-        cls.db = DbCategories(cls.mongo)
+        cls.db = dbCategories
         cls.id_list = []
 
     @classmethod

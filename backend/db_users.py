@@ -1,6 +1,8 @@
 import re
+from typing import List, Dict, Any
 from backend.crud_repository import CrudRepository
 from model.user import User
+
 
 class DbUsers(CrudRepository):
     """
@@ -18,9 +20,9 @@ class DbUsers(CrudRepository):
     delete(_id)
     """
 
-    def __init__(self, mongo):
+    def __init__(self, db):
         # pass the collection to the base class
-        super().__init__(mongo.db.users)
+        super().__init__(db.users)
         print("Connected to 'users' collection")
 
     def create(self, new_user: User) -> str | None:
@@ -41,3 +43,6 @@ class DbUsers(CrudRepository):
 
         new_id = super().create(new_user)
         return new_id
+
+    def read_all(self) -> List[Dict[str, Any]]:
+        return super().read_all('lastname')

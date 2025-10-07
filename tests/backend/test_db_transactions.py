@@ -1,13 +1,9 @@
 import random
 from datetime import datetime, timezone
 from unittest import TestCase
-
 from flask import Flask
 
-from backend.db import init_db
-from backend.db_categories import DbCategories
-from backend.db_transactions import DbTransactions
-from backend.db_users import DbUsers
+from backend.db import init_db, dbTransactions, dbUsers, dbCategories
 from model.transaction import Transaction, TransactionType
 
 
@@ -20,15 +16,15 @@ class TestDbTransactions(TestCase):
         """
         app = Flask(__name__)
         cls.mongo = init_db(app)
-        cls.db = DbTransactions(cls.mongo)
+        cls.db = dbTransactions
         cls.id_list = []
 
         # read existing users
-        db_users = DbUsers(cls.mongo)
+        db_users = dbUsers
         cls.users = db_users.read_all()
 
         # read existing categories
-        db_categories = DbCategories(cls.mongo)
+        db_categories = dbCategories
         cls.categories = db_categories.read_all()
 
     @classmethod
@@ -60,8 +56,8 @@ class TestDbTransactions(TestCase):
     def test_update(self):
         trans_id = self.create_dummy_transaction()
         transaction = self.db.read(trans_id)
-        transaction.amount = 99.99
-        transaction.description = "Description changed"
+        transaction['amount'] = 99.99
+        transaction['description'] = "Description changed"
         success = self.db.update(trans_id, transaction)
         assert success is True
 
