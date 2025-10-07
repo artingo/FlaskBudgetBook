@@ -1,12 +1,14 @@
 from flask import Flask
 from backend.db import init_db, mongo
 from routes.transaction_routes import trans_bp
+from routes.user_routes import user_bp
 
 def create_app():
     app = Flask(__name__)
     init_db(app)
     mongo.init_app(app)
 
-    # load transaction routes
+    # load routes
+    app.register_blueprint(user_bp)
     app.register_blueprint(trans_bp)
     return app
