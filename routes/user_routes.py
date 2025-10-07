@@ -13,7 +13,7 @@ def show_users():
     return render_template('users/index.html', users=users)
 
 @user_bp.route('/create', methods=['GET', 'POST'])
-def users_create():
+def create():
     if request.method == 'GET':
         # show new_user creation form
         return render_template('users/create.html')
@@ -33,21 +33,21 @@ def users_create():
     return "Method not allowed", 405
 
 @user_bp.route('/<user_id>')
-def users_read(user_id):
+def read(user_id):
     user = dbUsers.read(user_id)
     if user is None:
         return f"User with ID '{user_id}' not found", 404
     return render_template('users/read.html', user=user)
 
 @user_bp.route('/update/<user_id>')
-def users_change(user_id):
+def change(user_id):
     user = dbUsers.read(user_id)
     if user is None:
         return f"User with ID '{user_id}' not found", 404
     return render_template('users/update.html', user=user)
 
 @user_bp.route('/update', methods=['POST'])
-def users_update():
+def update():
     user_id = request.form['_id']
     updated_user = User(request.form['firstname'], request.form['lastname'])
     success = dbUsers.update(user_id, updated_user)
@@ -59,7 +59,7 @@ def users_update():
     return redirect(url_for('users.show_users'))
 
 @user_bp.route('/delete', methods=['POST'])
-def users_delete():
+def delete():
     user_id = request.form['_id']
     success = dbUsers.delete(user_id)
 
