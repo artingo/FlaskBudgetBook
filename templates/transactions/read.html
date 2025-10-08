@@ -2,25 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Transaction #{{ transaction._id }}</title>
+    <title>Transaction '{{ transaction.description }}'</title>
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <link rel="stylesheet" href="/static/css/global.css">
 </head>
 <body>
-<h1>Transaction #{{ transaction._id }}</h1>
+<h1>Transaction '{{ transaction.description }}'</h1>
 
 <fieldset>
-    <label for="_id">ID</label>
-    <input type="text" id="_id" value="{{ transaction._id }}" disabled><br>
+    <label for="username">User</label>
+    <input type="text" id="username" value="{{ transaction.username }}" disabled><br>
 
-    <label for="user_id">User</label>
-    <input type="text" id="user_id" value="{{ transaction.user_id }}" disabled><br>
+    <label for="type">Type</label>
+    <input type="text" id="type" value="{{ transaction.type }}" disabled><br>
 
-    <label for="kind">Type</label>
-    <input type="text" id="kind" value="{{ transaction.kind }}" disabled><br>
-
-    <label for="category_id">Category</label>
-    <input type="text" id="category_id" value="{{ transaction.category_id }}" disabled><br>
+    <label for="category_name">Category</label>
+    <input type="text" id="category_name" value="{{ transaction.category_name }}" disabled><br>
 
     <label for="description">Description</label>
     <input type="text" id="description" value="{{ transaction.description }}" disabled><br>
@@ -28,9 +25,8 @@
     <label for="amount">Amount</label>
     <input type="number" id="amount" value="{{ transaction.amount }}" disabled><br>
 
-    <label for="date">Modified</label>
-    <input type="text" id="date" value="{{ transaction.date }}" disabled><br>
-
+    <label for="modified">Modified</label>
+    <input type="text" id="modified" value="{{ transaction.modified }}" disabled><br>
 </fieldset>
 
 <section style="display: flex; gap: 0.5rem">

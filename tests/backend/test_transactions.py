@@ -1,3 +1,4 @@
+import pprint
 import random
 from datetime import datetime, timezone
 from unittest import TestCase
@@ -66,10 +67,16 @@ class TestDbTransactions(TestCase):
         success = self.db.delete(trans_id)
         assert success is True
 
+    def test_read_one(self):
+        trans_id = self.create_dummy_transaction()
+        result = self.db.read_one(trans_id)
+        assert result is not None
+        pprint.pprint(result)
+
     def create_dummy_transaction(self) -> str:
         """
         This creates a dummy transaction.
-        :return: the id of the freshly created transaction.
+        :return: the _id of the freshly created transaction.
         """
         first_user = self.users[0]
         user_id = first_user.get('_id')
@@ -81,7 +88,7 @@ class TestDbTransactions(TestCase):
 
         transaction = Transaction(
             user_id,
-            TransactionType.INCOME.value,
+            TransactionType.Income.value,
             "Random transaction",
             category_id,
             amount,

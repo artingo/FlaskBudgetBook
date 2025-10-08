@@ -34,7 +34,7 @@ def create():
 
 @trans_bp.route('/<trans_id>')
 def read(trans_id):
-    transaction = dbTransactions.read(trans_id)
+    transaction = dbTransactions.read_one(trans_id)
     if transaction is None:
         return f"Transaction with ID '{trans_id}' not found", 404
     return render_template('transactions/read.html', transaction=transaction)

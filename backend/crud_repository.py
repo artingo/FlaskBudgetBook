@@ -60,7 +60,7 @@ class CrudRepository:
         result = self.collection.update_one(
             {"_id": object_id},
             {"$set": document})
-        return result.modified_count == 1
+        return result.acknowledged
 
     def delete(self, _id: str) -> bool:
         """

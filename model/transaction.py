@@ -3,8 +3,8 @@ from enum import Enum, auto
 from bson import ObjectId
 
 class TransactionType(Enum):
-    INCOME = auto()
-    EXPENSE = auto()
+    Income = auto()
+    Expense = auto()
 
 class Transaction:
     """

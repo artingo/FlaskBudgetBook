@@ -57,7 +57,7 @@
                title="Enter a number up to 999.99 with up to two decimal places."><br>
 
         <label for="date">Modified</label>
-        <input type="text" id="date" value="{{ transaction.date }}" disabled><br>
+        <input type="text" id="date" value="{{ transaction.date.strftime('%m/%d/%Y %H:%M:%S') }}" disabled><br>
 
         <small>Fields with '*' are required</small>
     </fieldset>

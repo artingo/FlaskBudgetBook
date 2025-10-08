@@ -25,7 +25,7 @@
 {% for t in transactions %}
     <tr>
         <td><a href="/transactions/{{ t._id }}">{{ t._id }}</a></td>
-        <td>{{ t.user_name }}</td>
+        <td>{{ t.user_id }}</td>
         <td>{{ t.kind }}</td>
         <td>{{ t.description }}</td>
         <td>{{ t.category_id }}</td>
