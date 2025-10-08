@@ -9,7 +9,7 @@ trans_bp = Blueprint('transactions', __name__, url_prefix='/transactions')
 
 @trans_bp.route('/')
 def show_transactions():
-    transactions = dbTransactions.read_all('date')
+    transactions = dbTransactions.read_all()
     return render_template('transactions/index.html',
                            transactions=transactions)
 

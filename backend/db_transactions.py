@@ -2,15 +2,9 @@ from bson import ObjectId
 from backend.crud_repository import CrudRepository
 from model.transaction import TransactionType
 
-
 class DbTransactions(CrudRepository):
-    def __init__(self, db):
-        super().__init__(db.transactions)
-        print("Connected to 'transactions' collection")
-
-    def read_one(self, _id: str):
-        pipeline = [
-            {"$match": {"_id": ObjectId(_id)}},
+    # pipeline to collect transactions with users and categories
+    PIPELINE = [
             {"$lookup": {
                 "from": "users",
                 "localField": "user_id",
@@ -36,14 +30,36 @@ class DbTransactions(CrudRepository):
                 "modified": {
                     "$dateToString": {
                         "date": "$date",
-                        "format": "%m/%d/%Y %H:%M:%S"
+                        "format": "%d/%m/%Y %H:%M:%S"
                     }
                 },
             }}
         ]
-        result = next(self.collection.aggregate(pipeline))
+
+    def __init__(self, db):
+        super().__init__(db.transactions)
+        print("Connected to 'transactions' collection")
+
+    def read_one(self, _id: str):
+        """
+        Read one transaction with user and category
+        :param _id: the id of the transaction
+        :return: a transaction as dictionary
+        """
+        single_pipeline = [{"$match": {"_id": ObjectId(_id)}}] + self.PIPELINE
+        result = next(self.collection.aggregate(single_pipeline))
         # transform TransactionType value to name
         result['type'] = TransactionType(result['type']).name
         return result
 
-    # TODO: read all transactions with username and category_description
+    def read_all(self, **kwargs):
+        """
+        Reads all transactions with user and category
+        :param kwargs: optional arguments
+        :return: a list of transactions as dictionary
+        """
+        results = list(self.collection.aggregate(self.PIPELINE))
+        # convert TransactionType values to names
+        for r in results:
+            r['type'] = TransactionType(r['type']).name
+        return results

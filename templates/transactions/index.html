@@ -25,12 +25,12 @@
 {% for t in transactions %}
     <tr>
         <td><a href="/transactions/{{ t._id }}">{{ t._id }}</a></td>
-        <td>{{ t.user_id }}</td>
-        <td>{{ t.kind }}</td>
+        <td>{{ t.username }}</td>
+        <td>{{ t.type }}</td>
         <td>{{ t.description }}</td>
-        <td>{{ t.category_id }}</td>
+        <td>{{ t.category_name }}</td>
         <td>{{ t.amount }}</td>
-        <td>{{ t.date }}</td>
+        <td>{{ t.modified }}</td>
         <td>
             <button type="button">
                 <a href="/transactions/update/{{ t._id }}">✏️Change</a>
