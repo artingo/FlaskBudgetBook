@@ -44,9 +44,8 @@
 
             <tbody>
             {% for t in transactions %}
-                <tr role="button"
-                    onclick="location.href='/transactions/{{ t._id }}'">
-                    <td>{{ t.modified }}</td>
+                <tr>
+                    <td><a href="/transactions/{{ t._id }}">{{ t.modified }}</a></td>
                     <td>{{ t.username }}</td>
                     <td>{{ t.type }}</td>
                     <td>{{ t.category_name }}</td>
