@@ -3,38 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Category '{{ category.description }}'</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <link rel="stylesheet" href="/static/css/global.css">
+    <meta name="keywords" content="Category">
+    <meta name="description" content="Category '{{ category.description }}'">
+
+    {% include 'partials/html_head.html' %}
 </head>
+
 <body>
-<h1>Category '{{ category.description }}'</h1>
+{% include 'partials/sidebar.html' %}
 
-<table border cellpadding="4" cellspacing="0">
-<thead>
-    <tr>
-        <th>ID</th>
-        <th>Description</th>
-        <th></th>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td>{{ category._id }}</td>
-        <td>{{ category.description }}</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><button type="button"><a href="/categories">↩️Overview</a></button></td>
-        <td><button type="button"><a href="/categories/update/{{ category._id }}">✏️Change</a></button></td>
-        <td><form action="/categories/delete" method="POST"
-                  onsubmit="return confirm('Are you sure?')">
-                <input type="hidden" name="_id" value="{{ category._id }}">
-                <button type="submit">🗑️Delete</button>
-            </form>
-        </td>
-    </tr>
-</tbody>
-</table>
+<!-- Main Content -->
+<div id="content">
+    {% include 'partials/topbar.html' %}
 
+    <div class="container-fluid my-4 px-lg-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="fw-bold m-0">Category '{{ category.description }}'</h2>
+            <nav class="breadcrumb m-0">
+                <a class="breadcrumb-item" href="/">Home</a>
+                <a class="breadcrumb-item" href="/categories">Categories</a>
+                <span class="breadcrumb-item active " aria-current="page">Details</span>
+            </nav>
+        </div>
+
+        <div class="card p-3 col-6 col-sm-6 my-2">
+            <h3 class="section-title ">Details</h3>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>Description:</td>
+                    <td>{{ category.description }}</td>
+                </tr>
+                <tr>
+                    <td>ID:</td>
+                    <td>#{{ category._id }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <section class="d-flex  justify-content-between">
+                <button class="btn btn-outline-secondary">
+                    <a href="/categories">↩️ Back</a>
+                </button>
+                <button class="btn btn-outline-secondary">
+                    <a href="/categories/update/{{ category._id }}">✏️ Change</a>
+                </button>
+                <form action="/transactions/delete" method="POST"
+                      onsubmit="return confirm('Are you sure?')">
+                    <input type="hidden" name="_id" value="{{ category._id }}">
+                    <button class="btn btn-outline-danger">🗑️ Delete</button>
+                </form>
+            </section>
+        </div>
+    </div>
+    {% include 'partials/footer.html' %}
+</div>
+
+{% include 'partials/bootstrap.html' %}
 </body>
 </html>
