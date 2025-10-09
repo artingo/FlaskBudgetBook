@@ -3,68 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <title>Update transaction '{{ transaction.description }}'</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <link rel="stylesheet" href="/static/css/global.css">
+    <meta name="keywords" content="Update transaction">
+    <meta name="description" content="Update an existing transaction">
+
+    {% include 'partials/html_head.html' %}
 </head>
 <body>
-<h1>Update transaction '{{ transaction.description }}'</h1>
+{% include 'partials/sidebar.html' %}
 
-<form action="/transactions/update" method="POST">
-    <fieldset>
-        <input type="hidden" name="_id" value="{{ transaction._id }}">
+<!-- Main Content -->
+<div id="content">
+    {% include 'partials/topbar.html' %}
 
-        <label for="user_id">User *</label>
-        <select name="user_id" id="user_id" required>
-            <option value="">-- Please select --</option>
-            {% for u in users %}
-                <option value="{{ u._id }}"
-                    {% if u._id == transaction.user_id %} selected {% endif %}>
-                    {{ u.firstname }} {{ u.lastname }}
-                </option>
-            {% endfor %}
-        </select><br>
+    <div class="container-fluid my-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="fw-bold m-0">Update transaction '{{ transaction.description }}'</h2>
+            <nav class="breadcrumb m-0">
+                <a class="breadcrumb-item " href="/">Home</a>
+                <a class="breadcrumb-item " href="/transactions">Transactions</a>
+                <span class="breadcrumb-item active " aria-current="page">Update Transaction</span>
+            </nav>
+        </div>
 
-        <label>Type *</label>
-        {% for k in kind %}
-            <label>
-                <input type="radio" name="kind" id="{{ k.value }}"
-                       value="{{ k.value }}" required
-                       {% if k.value == transaction.kind %} checked {% endif %}>
-                {{ k.name }}
-            </label>
-        {% endfor %}<br>
+        <div class="row mt-4">
+            <div class="col-lg-6">
+                <div class="p-3 bg-white border rounded">
+                    <form action="/transactions/update" method="POST" class="needs-validation" novalidate>
+                        <input type="hidden" name="_id" value="{{ transaction._id }}">
 
-        <label for="category_id">Category *</label>
-        <select name="category_id" id="category_id" required>
-            <option value="">-- Please select --</option>
-            {% for c in categories %}
-                <option value="{{ c._id }}"
-                    {% if c._id == transaction.category_id %} selected {% endif %}>
-                    {{ c.description }}
-                </option>
-            {% endfor %}
-        </select><br>
+                        <label class="form-check-label" for="user_id">User *</label>
+                        <select name="user_id" id="user_id" class="form-control" required>
+                            <option value="">-- Please select --</option>
+                            {% for u in users %}
+                                <option value="{{ u._id }}"
+                                        {% if u._id == transaction.user_id %} selected {% endif %}>
+                                    {{ u.firstname }} {{ u.lastname }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a user.
+                        </div>
 
-        <label for="description">Description *</label>
-        <input type="text" name="description" id="description" value="{{ transaction.description }}" required><br>
+                        <label class="form-check-label col-2 mt-3">Type *</label>
+                        {% for k in kind %}
+                            <label class="form-check-label col-2">
+                                <input type="radio" name="kind" id="{{ k.value }}"
+                                       class="form-check-input" value="{{ k.value }}" required
+                                        {% if k.value == transaction.kind %} checked {% endif %}>
+                                {{ k.name }}
+                            </label>
+                        {% endfor %}<br>
+                        <div class="invalid-feedback">
+                            Please select a transaction type.
+                        </div>
 
+                        <label class="form-check-label mt-3" for="category_id">Category *</label>
+                        <select name="category_id" id="category_id"
+                                class="form-control" required>
+                            <option value="">-- Please select --</option>
+                            {% for c in categories %}
+                                <option value="{{ c._id }}"
+                                        {% if c._id == transaction.category_id %} selected {% endif %}>
+                                    {{ c.description }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a category.
+                        </div>
 
-        <label for="amount">Amount *</label>
-        <input type="number" name="amount" id="amount" required
-               value="{{ transaction.amount }}"
-               pattern="^\d{1,3}(\.\d{1,2})?$"
-               min="0.00" max="999.99" step="0.01"
-               title="Enter a number up to 999.99 with up to two decimal places."><br>
+                        <label class="form-check-label mt-3" for="description">Description *</label>
+                        <input type="text" name="description" id="description"
+                               class="form-control" value="{{ transaction.description }}" required>
+                        <div class="invalid-feedback">
+                            Please enter a description.
+                        </div>
 
-        <label for="date">Modified</label>
-        <input type="text" id="date" value="{{ transaction.date.strftime('%m/%d/%Y %H:%M:%S') }}" disabled><br>
+                        <label class="form-check-label mt-3" for="amount">Amount *</label>
+                        <input type="number" name="amount" id="amount" class="form-control" required
+                               value="{{ transaction.amount }}"
+                               pattern="^\d{1,3}(\.\d{1,2})?$"
+                               min="0.00" max="999.99" step="0.01"
+                               title="Enter a number up to 999.99 with up to two decimal places.">
 
-        <small>Fields with '*' are required</small>
-    </fieldset>
-    <button type="button">
-        <a href="/transactions">❌ Cancel</a>
-    </button>
-    <button type="submit">✔️ Update</button>
-</form>
+                        <label class="form-check-label mt-3" for="date">Modified</label>
+                        <div>{{ transaction.date.strftime('%m/%d/%Y %H:%M:%S') }}</div>
+
+                        <h6 class="text-danger mt-1 mb-3">Fields with '*' are required</h6>
+
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <a href="/transactions">❌ Cancel</a>
+                            </button>
+                            <button class="btn btn-dark" type="submit">✔️ Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'partials/footer.html' %}
+</div>
+
+{% include 'partials/bootstrap.html' %}
 </body>
 </html>

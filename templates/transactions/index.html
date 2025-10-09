@@ -44,23 +44,22 @@
 
             <tbody>
             {% for t in transactions %}
-                <tr role="button"
-                    onclick="location.href='/transactions/{{ t._id }}'">
-                    <td>{{ t.modified }}</td>
+                <tr>
+                    <td><a href="/transactions/{{ t._id }}">{{ t.modified }}</a></td>
                     <td>{{ t.username }}</td>
                     <td>{{ t.type }}</td>
                     <td>{{ t.category_name }}</td>
                     <td>{{ t.amount }}</td>
                     <td>{{ t.description }}</td>
 
-                    <td><button class="btn btn-outline-secondary">
+                    <td><button class="btn btn-sm btn-outline-secondary">
                             <a href="/transactions/update/{{ t._id }}">✏️ Change</a>
                         </button>
                     </td>
                     <td><form action="/transactions/delete" method="POST"
                               onsubmit="return confirm('Are you sure?')">
                             <input type="hidden" name="_id" value="{{ t._id }}">
-                            <button class="btn btn-outline-danger"
+                            <button class="btn btn-sm btn-outline-danger"
                                     type="submit">🗑️ Delete</button>
                         </form>
                     </td>

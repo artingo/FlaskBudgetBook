@@ -1,7 +1,8 @@
 # Flask / Mongo tutorial
 
 This project is meant to teach flask and MongoDB fundamentals by creating a **<u>budget book</u>**, step by step. <br/>
-It uses the [Flask](https://flask.palletsprojects.com/en/stable/quickstart/) web framework, a [Bootstrap 5](https://getbootstrap.com) frontend and stores its data in [MongoDB](https://www.digitalocean.com/community/tutorials/how-to-use-mongodb-in-a-flask-application).  
+It uses the [Flask](https://flask.palletsprojects.com/en/stable/quickstart/) web framework, a [Bootstrap 5](https://getbootstrap.com) frontend and stores its data in [MongoDB](https://www.digitalocean.com/community/tutorials/how-to-use-mongodb-in-a-flask-application).<br>  
+![Screenshot](screenshots/transactions_list.png)  
 
 Follow these steps to implement the budget book:
 ## 1. Create project
@@ -93,7 +94,7 @@ Follow these steps to implement the budget book:
    @app.route('/users/create', methods=['GET', 'POST'])
    def users_create():
       if request.method == 'GET':
-         # show user creation form
+         # show new_user creation form
          return render_template('users/create.html')
    ```
 1. Implement the corresponding [create.html](templates/users/create.html) page:
