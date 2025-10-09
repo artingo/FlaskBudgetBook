@@ -3,29 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Update user '{{ user.firstname + ' ' + user.lastname }}'</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <link rel="stylesheet" href="/static/css/global.css">
+    <meta name="keywords" content="Update User">
+    <meta name="description" content="Update a user">
+
+    {% include 'partials/html_head.html' %}
 </head>
 <body>
-<h1>Update user '{{ user.firstname + ' ' + user.lastname }}'</h1>
+{% include 'partials/sidebar.html' %}
 
-<form action="/users/update" method="POST">
-    <fieldset>
-        <input type="hidden" name="_id" value="{{ user._id }}">
+<!-- Main Content -->
+<div id="content">
+    {% include 'partials/topbar.html' %}
 
-        <label for="firstname">First name *</label>
-        <input type="text" name="firstname" id="firstname"
-               value="{{ user.firstname }}" required><br/>
+    <div class="container-fluid my-4 px-lg-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="fw-bold m-0">User '{{ user.firstname + ' ' + user.lastname }}'</h2>
+            <nav class="breadcrumb m-0">
+                <a class="breadcrumb-item" href="/">Home</a>
+                <a class="breadcrumb-item" href="/users">Users</a>
+                <span class="breadcrumb-item active " aria-current="page">Update user</span>
+            </nav>
+        </div>
 
-        <label for="lastname">Last name *</label>
-        <input type="text" name="lastname" id="lastname"
-               value="{{ user.lastname }}" required><br/>
-        <small>Fields with '*' are required</small>
-    </fieldset>
-    <button type="button">
-        <a href="/users">❌Cancel</a>
-    </button>
-    <button type="submit">✔️Update</button>
-</form>
+        <div class="row mt-4">
+            <div class="col-lg-6">
+                <div class="p-3 bg-white border rounded">
+
+                    <form action="/users/update" method="POST" class="needs-validation" novalidate>
+                        <input type="hidden" name="_id" value="{{ user._id }}">
+
+                        <label class="form-check-label" for="firstname">First name *</label>
+                        <input type="text" name="firstname" id="firstname"
+                               class="form-control" value="{{ user.firstname }}" required>
+                        <div class="invalid-feedback">
+                            Please enter a first name.
+                        </div>
+
+                        <label class="form-check-label mt-3" for="lastname">Last name *</label>
+                        <input type="text" name="lastname" id="lastname"
+                               class="form-control" value="{{ user.lastname }}" required>
+                        <div class="invalid-feedback">
+                            Please enter a last name.
+                        </div>
+
+                        <h6 class="text-danger mt-1 mb-3">Fields with '*' are required</h6>
+
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <a href="/users">❌ Cancel</a>
+                            </button>
+                            <button class="btn btn-dark" type="submit">✔️ Update</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'partials/footer.html' %}
+</div>
+
+{% include 'partials/bootstrap.html' %}
 </body>
 </html>

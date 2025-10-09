@@ -3,46 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <link rel="stylesheet" href="/static/css/global.css">
+    <meta name="keywords" content="Users">
+    <meta name="description" content="Overview of users">
+
+    {% include 'partials/html_head.html' %}
 </head>
+
 <body>
-<h1>Users</h1>
-<table border cellpadding="4" cellspacing="0">
-<thead>
-    <th>ID</th>
-    <th>First name</th>
-    <th>Last name</th>
-    <th></th>
-</thead>
+{% include 'partials/sidebar.html' %}
 
-<tbody>
-    {% for u in users %}
-        <tr>
-            <td><a href="/users/{{ u._id }}">{{ u._id }}</a></td>
-            <td>{{ u.firstname }}</td>
-            <td>{{ u.lastname }}</td>
-            <td>
-                <button type="button">
-                    <a href="/users/update/{{ u._id }}">✏️Change</a>
+<!-- Main Content -->
+<div id="content">
+    {% include 'partials/topbar.html' %}
+
+    <div class="container-fluid my-4 px-lg-4">
+        <div class="d-flex my-3 justify-content-between align-items-center">
+            <h2 class="fw-bold m-0">Users List&nbsp;
+                <button class="btn btn-sm btn-dark">
+                    ➕ <a href="/users/create">Add</a>
                 </button>
-            </td>
-            <td><form action="/users/delete" method="POST"
-                      onsubmit="return confirm('Are you sure?')">
-                    <input type="hidden" name="_id" value="{{ u._id }}">
-                    <button type="submit">🗑️Delete</button>
-                </form>
-            </td>
-        </tr>
-    {% endfor %}
-</tbody>
-</table>
+            </h2>
+            <nav class="breadcrumb m-0">
+                <a class="breadcrumb-item " href="/">Home</a>
+                <span class="breadcrumb-item active " aria-current="page">Users List</span>
+            </nav>
+        </div>
 
-<button type="button">
-    🏡<a href="/">Home</a>
-</button>
-<button type="button">
-    ➕<a href="/users/create">Create</a>
-</button>
+        <div class="bg-white p-4 col-6">
+            <table class="table table-hover align-middle bg-white">
+            <thead class="table-light">
+                <th>First name</th>
+                <th>Last name</th>
+                <th colspan="2">Actions</th>
+            </thead>
+            <tbody>
+            {% for u in users %}
+                <tr>
+                    <td><a href="/users/{{ u._id }}">{{ u.firstname }}</a></td>
+                    <td>{{ u.lastname }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-secondary">
+                            <a href="/users/update/{{ u._id }}">✏️Change</a>
+                        </button>
+                    </td>
+                    <td>
+                        <form action="/users/delete" method="POST"
+                              onsubmit="return confirm('Are you sure?')">
+                            <input type="hidden" name="_id" value="{{ u._id }}">
+                            <button class="btn btn-sm btn-outline-danger"
+                                    type="submit">🗑️Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+    {% include 'partials/footer.html' %}
+</div>
+
+{% include 'partials/bootstrap.html' %}
 </body>
 </html>

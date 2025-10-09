@@ -3,41 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ user.firstname + ' ' + user.lastname }}</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <link rel="stylesheet" href="/static/css/global.css">
+    <meta name="keywords" content="Add User">
+    <meta name="description" content="Add a new user">
+
+    {% include 'partials/html_head.html' %}
 </head>
+
 <body>
-<h1>Users details</h1>
+{% include 'partials/sidebar.html' %}
 
-<table border cellpadding="4" cellspacing="0">
-<thead>
-    <tr>
-        <th>ID</th>
-        <th>First name</th>
-        <th>Last name</th>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td>{{ user._id }}</td>
-        <td>{{ user.firstname }}</td>
-        <td>{{ user.lastname }}</td>
-    </tr>
-    <tr>
-        <td><button type="button"><a href="/users">↩️Overview</a></button></td>
-        <td><button type="button"><a href="/users/update/{{ user._id }}">✏️Change</a></button></td>
-        <td><form action="/users/delete" method="POST"
-                  onsubmit="return confirm('Are you sure?')">
-                <input type="hidden" name="_id" value="{{ user._id }}">
-                <button type="submit">🗑️Delete</button>
-            </form>
-        </td>
-    </tr>
-</tbody>
-</table>
+<!-- Main Content -->
+<div id="content">
+    {% include 'partials/topbar.html' %}
 
+    <div class="container-fluid my-4 px-lg-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="fw-bold m-0">User '{{ user.firstname + ' ' + user.lastname }}'</h2>
+            <nav class="breadcrumb m-0">
+                <a class="breadcrumb-item" href="/">Home</a>
+                <a class="breadcrumb-item" href="/users">Users</a>
+                <span class="breadcrumb-item active " aria-current="page">Details</span>
+            </nav>
+        </div>
 
+        <div class="card p-3 col-4 my-2">
+            <h3 class="section-title ">Details</h3>
+            <table class="table">
+            <tbody>
+                <tr>
+                    <td>First name:</td>
+                    <td>{{ user.firstname }}</td>
+                </tr>
+                <tr>
+                    <td>Last name:</td>
+                    <td>{{ user.lastname }}</td>
+                </tr>
+            </tbody>
+            </table>
 
+            <section class="d-flex justify-content-between">
+                <button class="btn btn-outline-secondary">
+                    <a href="/users">↩️ Back</a>
+                </button>
+                <button class="btn btn-outline-secondary">
+                    <a href="/users/update/{{ user._id }}">✏️ Change</a>
+                </button>
+                <form action="/users/delete" method="POST"
+                      onsubmit="return confirm('Are you sure?')">
+                    <input type="hidden" name="_id" value="{{ user._id }}">
+                    <button class="btn btn-outline-danger">🗑️ Delete</button>
+                </form>
+            </section>
+        </div>
+    </div>
+    {% include 'partials/footer.html' %}
+</div>
 
+{% include 'partials/bootstrap.html' %}
 </body>
 </html>
