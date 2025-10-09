@@ -3,56 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <title>Transactions</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <link rel="stylesheet" href="/static/css/global.css">
+    <meta name="keywords" content="Transactions">
+    <meta name="description" content="Overview of current transactions">
+
+    {% include 'partials/html_head.html' %}
 </head>
+
 <body>
-<h1>Transactions</h1>
-<table border cellpadding="4" cellspacing="0">
-<thead>
-    <th>ID</th>
-    <th>User</th>
-    <th>Kind</th>
-    <th>Description</th>
-    <th>Category</th>
-    <th>Amount</th>
-    <th>Modified</th>
-    <th></th>
-    <th></th>
-</thead>
+{% include 'partials/sidebar.html' %}
 
-<tbody>
-{% for t in transactions %}
-    <tr>
-        <td><a href="/transactions/{{ t._id }}">{{ t._id }}</a></td>
-        <td>{{ t.username }}</td>
-        <td>{{ t.type }}</td>
-        <td>{{ t.description }}</td>
-        <td>{{ t.category_name }}</td>
-        <td>{{ t.amount }}</td>
-        <td>{{ t.modified }}</td>
-        <td>
-            <button type="button">
-                <a href="/transactions/update/{{ t._id }}">✏️Change</a>
-            </button>
-        </td>
-        <td><form action="/transactions/delete" method="POST"
-                  onsubmit="return confirm('Are you sure?')">
-                <input type="hidden" name="_id" value="{{ t._id }}">
-                <button type="submit">🗑️Delete</button>
-            </form>
-        </td>
-    </tr>
-{% endfor %}
+<!-- Main Content -->
+<div id="content">
+    {% include 'partials/topbar.html' %}
 
-</tbody>
-</table>
+    <div class="container-fluid my-4 px-lg-4">
+        <div class="d-flex my-3 justify-content-between align-items-center">
+            <h2 class="fw-bold m-0">Transaction List
+                <button class="btn btn-outline-dark">
+                    ➕ <a href="/transactions/create">Create</a>
+                </button>
+            </h2>
 
-<button type="button">
-    🏡<a href="/">Home</a>
-</button>
-<button type="button">
-    ➕<a href="/transactions/create">Create</a>
-</button>
+            <nav class="breadcrumb m-0">
+                <a class="breadcrumb-item " href="/">Home</a>
+                <span class="breadcrumb-item active " aria-current="page">Transaction List</span>
+            </nav>
+        </div>
+
+        <div class="bg-white p-4">
+            <table class="table table-hover align-middle bg-white">
+            <thead class="table-light">
+                <th>Modified</th>
+                <th>User</th>
+                <th>Type</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Description</th>
+                <th colspan="2">Actions</th>
+            </thead>
+
+            <tbody>
+            {% for t in transactions %}
+                <tr role="button"
+                    onclick="location.href='/transactions/{{ t._id }}'">
+                    <td>{{ t.modified }}</td>
+                    <td>{{ t.username }}</td>
+                    <td>{{ t.type }}</td>
+                    <td>{{ t.category_name }}</td>
+                    <td>{{ t.amount }}</td>
+                    <td>{{ t.description }}</td>
+
+                    <td><button class="btn btn-outline-secondary">
+                            <a href="/transactions/update/{{ t._id }}">✏️ Change</a>
+                        </button>
+                    </td>
+                    <td><form action="/transactions/delete" method="POST"
+                              onsubmit="return confirm('Are you sure?')">
+                            <input type="hidden" name="_id" value="{{ t._id }}">
+                            <button class="btn btn-outline-danger"
+                                    type="submit">🗑️ Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% include 'partials/footer.html' %}
+</div>
+
+{% include 'partials/bootstrap.html' %}
 </body>
 </html>

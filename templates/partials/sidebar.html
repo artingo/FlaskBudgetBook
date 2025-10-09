@@ -1,0 +1,90 @@
+<!-- Sidebar -->
+    <div id="sidebar" class="d-flex flex-column flex-shrink-0 text-white">
+        <div class="p-3 d-flex align-items-center justify-content-between">
+            <img src="/static/img/favicon.ico"> 
+                <h3 class="h3"><a href="/">Budget Book</a></h3>
+            <button class="btn btn-sm d-block d-lg-none" id="sidebarclose">
+                <iconify-icon icon="mdi:hamburger-menu-back" class="text-white" width="24" height="24"></iconify-icon>
+            </button>
+        </div>
+
+        <hr class="mt-0 mb-2">
+
+        <ul class="nav flex-column mb-auto px-2">
+            <li class="nav-item">
+                <input type="checkbox" id="transactions" name="dropdowns" checked>
+                <label for="transactions" class="nav-link sidebar-link py-3 ">
+                    <iconify-icon icon="mdi:bank-transfer" width="24" height="24"></iconify-icon>
+                    Transactions
+                    <iconify-icon id="downarrow" class="fa fa-angle-down" aria-hidden="true"
+                        icon="material-symbols:arrow-drop-down-rounded" width="24" height="24"></iconify-icon>
+                    <iconify-icon id="uparrow" class="fa fa-angle-down" aria-hidden="true"
+                        icon="material-symbols:arrow-drop-up-rounded" width="24" height="24"></iconify-icon>
+                </label>
+                <ul class="drop">
+                    <li>
+                        <label class="py-2">
+                            <input type="radio" name="menu">
+                            <a href="/transactions" class="text-capitalize"> Transaction&nbsp;List </a>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="py-2">
+                            <input type="radio" name="menu">
+                            <a href="/transactions/create" class="text-capitalize"> Add&nbsp;Transaction </a>
+                        </label>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <input type="checkbox" id="categories" name="dropdowns" checked>
+                <label for="categories" class="nav-link sidebar-link py-3 ">
+                    <iconify-icon icon="basil:layout-outline" width="24" height="24"></iconify-icon>
+                    Categories
+                    <iconify-icon id="downarrow" class="fa fa-angle-down" aria-hidden="true"
+                        icon="material-symbols:arrow-drop-down-rounded" width="24" height="24"></iconify-icon>
+                    <iconify-icon id="uparrow" class="fa fa-angle-down" aria-hidden="true"
+                        icon="material-symbols:arrow-drop-up-rounded" width="24" height="24"></iconify-icon>
+                </label>
+                <ul class="drop">
+                    <li>
+                        <label class="py-2">
+                            <input type="radio" name="menu">
+                            <a href="/categories" class="text-capitalize"> Category list </a>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="py-2">
+                            <input type="radio" name="menu">
+                            <a href="/categories/create" class="text-capitalize"> Add Category </a>
+                        </label>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <input type="checkbox" id="order" name="dropdowns" checked>
+                <label for="order" class="nav-link sidebar-link py-3 ">
+                    <iconify-icon icon="mdi:users-outline" width="24" height="24"></iconify-icon>
+                    Users
+                    <iconify-icon id="downarrow" class="fa fa-angle-down" aria-hidden="true"
+                        icon="material-symbols:arrow-drop-down-rounded" width="24" height="24"></iconify-icon>
+                    <iconify-icon id="uparrow" class="fa fa-angle-down" aria-hidden="true"
+                        icon="material-symbols:arrow-drop-up-rounded" width="24" height="24"></iconify-icon>
+                </label>
+                <ul class="drop list expanded">
+                    <li>
+                        <label class="py-2">
+                            <input type="radio" name="menu">
+                            <a href="/users" class="text-capitalize"> User List </a>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="py-2">
+                            <input type="radio" name="menu">
+                            <a href="/users/create" class="text-capitalize"> Add User </a>
+                        </label>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>

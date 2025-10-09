@@ -1,19 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Budget book</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <link rel="stylesheet" href="/static/css/global.css">
+    <title>Budget Book with Bootstrap 5</title>
+    <meta name="keywords" content="Budget Book">
+    <meta name="description" content="Budget Book with Bootstrap 5">
+
+    {% include 'partials/html_head.html' %}
 </head>
+
 <body>
-<h1>Budget book</h1>
+    {% include 'partials/sidebar.html' %}
 
-<ul type="none">
-    <li><a href="/users">Users</a></li>
-    <li><a href="/categories">Categories</a></li>
-    <li><a href="/transactions">Transactions</a></li>
-</ul>
+    <!-- Main Content -->
+    <div id="content">
+        {% include 'partials/topbar.html' %}
 
+        <!-- Main Content Area -->
+        <div class="container-fluid px-lg-4">
+
+            <!-- Stats Cards -->
+            <div class="row">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card stat-card d-flex">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted text-uppercase mb-2">TOTAL Earnings</p>
+                                <h3 class="display-6 fw-normal">$9,800</h3>
+                                <h6 class="change text-success fs-4">+63%</h6>
+                                <a href="#" class="">Net earning <span><iconify-icon icon="mdi-light:arrow-right"
+                                            width="24" height="24"
+                                            style="vertical-align: top;"></iconify-icon></span></a>
+                            </div>
+                            <div class="p-4" style="background-color: #EEF3E9;">
+                                <iconify-icon icon="mdi:dollar" class="text-success" width="35"
+                                    height="35"></iconify-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card stat-card d-flex">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted text-uppercase mb-2">orders</p>
+                                <h3 class="display-6 fw-normal">$22,500</h3>
+                                <h6 class="change text-danger fs-4">-44%</h6>
+                                <a href="#" class="">View all orders <span><iconify-icon icon="mdi-light:arrow-right"
+                                            width="24" height="24" style="vertical-align: top;"></iconify-icon></span>
+                                </a>
+                            </div>
+                            <div class="p-4" style="background-color: #DBF0F4;">
+                                <iconify-icon icon="mdi:cart-outline" class="text-info" width="35"
+                                    height="35"></iconify-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card stat-card d-flex">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted text-uppercase mb-2">customers</p>
+                                <h3 class="display-6 fw-normal">$12,240</h3>
+                                <h6 class="change text-success fs-4">+57%</h6>
+                                <a href="#" class="">View Customers <span><iconify-icon icon="mdi-light:arrow-right"
+                                            width="24" height="24"
+                                            style="vertical-align: top;"></iconify-icon></span></a>
+                            </div>
+                            <div class="p-4" style="background-color: #F9F5EE;">
+                                <iconify-icon icon="material-symbols:person-outline" class="text-warning" width="35"
+                                    height="35"></iconify-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card stat-card d-flex">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted text-uppercase mb-2">Balance</p>
+                                <h3 class="display-6 fw-normal">$10,640</h3>
+                                <h6 class="change text-black-50 fs-4">0%</h6>
+                                <a href="#" class="">Withdraw <span><iconify-icon icon="mdi-light:arrow-right"
+                                            width="24" height="24"
+                                            style="vertical-align: top;"></iconify-icon></span></a>
+                            </div>
+                            <div class="p-4" style="background-color: #E1F0FA;">
+                                <iconify-icon icon="iconoir:wallet" class="text-info" width="35"
+                                    height="35"></iconify-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        {% include 'partials/footer.html' %}
+    </div>
+
+    {% include 'partials/bootstrap.html' %}
 </body>
+
 </html>

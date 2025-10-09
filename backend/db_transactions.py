@@ -12,6 +12,7 @@ class DbTransactions(CrudRepository):
                 "as": "user"
             }},
             {"$unwind": "$user"},
+
             {"$lookup": {
                 "from": "categories",
                 "localField": "category_id",
@@ -19,6 +20,7 @@ class DbTransactions(CrudRepository):
                 "as": "category"
             }},
             {"$unwind": "$category"},
+
             {"$project": {
                 "username": {
                     "$concat": ["$user.firstname", " ", "$user.lastname"]
